@@ -21,13 +21,15 @@ def mass_spring_damp_acc(state_of_system, time):
     mass = 1.5
 
     # compute the acceleration
-    acc = (-spring_constant * pos / mass - damping_constant * vel)
+    acc = (-spring_constant * pos - damping_constant * vel) / mass
     return [vel, acc]
 
     # plt.legend(loc='upper right')
 
 
-if __name__ == "__main__":
-    INITIAL_STATE = [3.0, 0.0]
-    TIME = np.arange(0, 10, 0.1)
-    ALL_STATES = odeint(mass_spring_damp_acc, INITIAL_STATE, TIME)
+INITIAL_STATE = [3.0, 0.0]
+TIME = np.arange(0, 10, 0.1)
+ALL_STATES = odeint(mass_spring_damp_acc, INITIAL_STATE, TIME)
+
+fig, ax = plt.subplots()
+line, = ax.plot(TIME, ALL_STATES[:, 1])
