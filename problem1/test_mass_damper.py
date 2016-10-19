@@ -1,23 +1,37 @@
-from mass_damper import find_acc, euler_step
 import unittest
 import numpy as np
+from hypothesis import given, example
+from hypothesis import strategies as st
+from mass_damper import mass_spring_damp_acc
 
 
-class State(object):
-    def __init__(self, x, v, m, k, c):
-        self.x, self.v = x, v
-        self.m, self.k, self.c = m, k, c
+class TestMassDamper(unittest.TestCase):
+    """Test for a3 functions"""
 
+    # @given(x = st.integers(), y = st.integers())
+    def test_mass_spring_damp_acc(self, x, y):
+        [vel, acc] = mass_spring_damp_acc([x, y], 2)
+        if x > 0 and y > 0:
+            assert acc >= 0
+        elif x > 0 and y <= 0:
+            assert acc < 0
+        elif x < 0 and y > 0:
+            assert acc > 0
+        else:
+            assert acc < 0
 
-class Test_mass_damper(unittest.TestCase):
-    def test_find_acc_function(self):
-        st = State(3, 0, 1, 2.5, 2)
-        self.assertAlmostEqual(find_acc(st.x, st.v, 1, 2.5, 2),
-                               -7.5)
-    def test_euler_step(self):
-        st = State(3, 0, 1, 2.5, 2)
-        np.testing.assert_array_almost_equal(euler_step(st.x, st.v,
-                                                        st.m, st.k, st.c, 0.1), [3, -0.75] )
+    def test_mass_spring_damp_acc_normal(self):
+        pos, vel = [-3, -3]
+        [vel, acc] = mass_spring_damp_acc([pos, vel], 2)
+        if pos > 0 and vel > 0:
+            assert acc >= 0
+        elif pos > 0 and vel <= 0:
+            assert acc < 0
 
-    def test_euler(self):
-        pass
+    @given(st.integers(), st.integers())
+    def func_linear(self, x, y):
+        print(x, y)
+        assert x + y == y + x
+
+    def func_quad(self, x):
+        return x**2

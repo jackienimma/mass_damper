@@ -3,27 +3,31 @@ from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
 
-def mass_spring_damp_acc(state, t):
-    pos = state[0]
-    vel = state[1]
+def mass_spring_damp_acc(state_of_system, time):
+    """Right hand side of scipy.odeint, At each time step return
+    the velocity and acceleration to evaluate the position.
+
+    :param state_of_system: [position and velocity] as an array
+    :param time: time
+    :returns: [velocity and acceleration]
+    :rtype: list
+
+    """
+    pos = state_of_system[0]
+    vel = state_of_system[1]
     # Constants of mass damper
-    k = 2.5
-    c = 0.2
-    m = 1.5
+    spring_constant = 2.5
+    damping_constant = 0.2
+    mass = 1.5
 
     # compute the acceleration
-    acc = (-k * pos / m - c * vel)
+    acc = (-spring_constant * pos / mass - damping_constant * vel)
     return [vel, acc]
 
+    # plt.legend(loc='upper right')
 
-state0 = [3.0, 0.0]
-t = np.arange(0, 10, 0.1)
-state = odeint(mass_spring_damp_acc, state0, t)
-plt.figure(1)
-plt.subplot(211)
-plt.plot(t, state[:, 0], label='Position')
-plt.legend(loc='upper right')
-plt.subplot(212)
-plt.plot(t, state[:, 1], label='Velocity')
-plt.legend(loc='upper right')
-# plt.show()
+
+if __name__ == "__main__":
+    INITIAL_STATE = [3.0, 0.0]
+    TIME = np.arange(0, 10, 0.1)
+    ALL_STATES = odeint(mass_spring_damp_acc, INITIAL_STATE, TIME)
