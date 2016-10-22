@@ -28,8 +28,13 @@ def mass_spring_damp_acc(state_of_system, time):
 
 
 INITIAL_STATE = [3.0, 0.0]
-TIME = np.arange(0, 10, 0.1)
+TIME = np.arange(0, 30, 0.1)
 ALL_STATES = odeint(mass_spring_damp_acc, INITIAL_STATE, TIME)
 
-fig, ax = plt.subplots()
-line, = ax.plot(TIME, ALL_STATES[:, 1])
+plt.plot(TIME, ALL_STATES[:, 0], label='position')
+plt.plot(TIME, ALL_STATES[:, 1], label='velocity')
+plt.legend(loc='upper right')
+plt.xlabel('Time')
+plt.ylabel('Position and Velocity')
+plt.title('Mass damper system position and velocity with time')
+plt.savefig('result')

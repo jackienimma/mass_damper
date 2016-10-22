@@ -3,7 +3,6 @@ from mass_damper import mass_spring_damp_acc
 
 
 class TestMassDamper(unittest.TestCase):
-    """Test for a3 functions"""
 
     def test_mass_spring_damp_acc_normal(self):
         """Takes different positions and velocities, and compares
