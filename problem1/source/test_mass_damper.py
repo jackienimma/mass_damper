@@ -31,3 +31,5 @@ class TestMassDamper(unittest.TestCase):
                     assert acc > 0
                 else:
                     assert acc > 0
+
+unittest.main()
