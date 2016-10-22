@@ -30,13 +30,22 @@ def mass_spring_damp_acc(state_of_system, time):
 INITIAL_STATE = [3.0, 0.0]
 TIME = np.arange(0, 30, 0.1)
 ALL_STATES = odeint(mass_spring_damp_acc, INITIAL_STATE, TIME)
-
 plt.plot(TIME, ALL_STATES[:, 0], label='position')
 plt.plot(TIME, ALL_STATES[:, 1], label='velocity')
 plt.xlabel('Time')
 plt.ylabel('Position and Velocity')
 plt.title('Mass damper system position and velocity with time')
-plt.legend(loc='upper right', frameon=False)
-plt.savefig('result.png')
+plt.annotate(
+    'Position',
+    xy=(0, 3),
+    xytext=(3, 1.5),
+    arrowprops=dict(
+        facecolor='black', shrink=0.05))
+plt.annotate(
+    'Velocity',
+    xy=(0, 0),
+    xytext=(7, 1.5),
+    arrowprops=dict(
+        facecolor='black', shrink=0.05))
 
-# I tried hard to debug overriding of legend. But I couldn't make it.
+plt.savefig('result.png')
